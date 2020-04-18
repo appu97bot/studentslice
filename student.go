@@ -12,8 +12,8 @@ College string `json:"college"`
 Branch string `json:"branch"`
 Address string `json:"address"`
 }
-func main(){
 var a []student;
+func main(){
 b,_ := ioutil.ReadFile("student.json")
 json.Unmarshal(b,&a)
 for i:=0;i<len(a);i++{
@@ -46,22 +46,32 @@ log.Println("Changed Data:",a[i])
 }
 go insert(a,student{"Anju","Niet","IT","Guntur"},3)
 go insert(a,student{"Micky","Niet","IT","Nallapadu"},3)
+go update(a,student{"Aish","BLR","BSC","Karnataka"},6)
 time.Sleep(10*time.Second)
 }
-func insert(x []student, y student,z int){
-l:=len(x)+1;j:=0;
-b:=make([]student,l,l);
-for i:=0;i<len(b);i++{
+func insert(a []student, y student,z int){
+j:=0
+l:=len(a)+1
+b:=make([]student,l,l)
+for i:=0;i<l;i++{
 if i==z{
 b[i]=y;
-b[i+1]=x[j];
+b[i+1]=a[j];
 i=i+1
 }else
 {
-b[i]=x[j]
+b[i]=a[j]
 }
 j++
 }
-log.Println("Go routine Data:",b)
+a=b;
+log.Println("Go routine Data:",a)
 }
-
+func update(a []student,y student,z int){
+for i:=0;i<len(a);i++{
+if i==z{
+a[i]=y
+}
+}
+log.Println("Go updated routine:",a)
+}
